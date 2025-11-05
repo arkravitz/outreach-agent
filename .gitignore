@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.env
+.env.*
+!.env.example
+state/
+*.db
+*.db-*
+*token*.json
+*credentials*.json
+
+.playwright-mcp/
+dist/
