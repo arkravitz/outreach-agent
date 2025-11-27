@@ -1,0 +1,23 @@
+[Unit]
+Description=Pipeline durable outreach worker
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pipeline
+WorkingDirectory=/opt/pipeline
+EnvironmentFile=/etc/pipeline.env
+Environment=PIPELINE_STATE=/var/lib/pipeline
+ExecStart=/opt/pipeline/.venv/bin/huey_consumer pipeline.worker.huey -w 1 -k thread -g TERM -t 60
+Restart=on-failure
+RestartSec=15
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/var/lib/pipeline
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
