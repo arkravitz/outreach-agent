@@ -1,0 +1,81 @@
+{
+  "scenario": "offline end-to-end dry run, all providers are fixtures",
+  "external_emails_sent": 0,
+  "mock_emails_sent": 1,
+  "editor_invocations_with_actual_skill": 2,
+  "duplicate_reply_ignored": true,
+  "pending_followup_cancelled": true,
+  "mock_calendar_events": 1,
+  "project_state": "PROJECT_COMPLETED",
+  "digest": {
+    "generated_at": "2026-10-18T04:49:03.587139+00:00",
+    "new_prospects_contacted": 1,
+    "positive_replies": 1,
+    "meetings_booked": [
+      {
+        "id": "p3bdd69db00e1153d8253105661ff48c2711c5ee6",
+        "contact_id": 1,
+        "start": "2026-10-21T18:00:00+00:00",
+        "end": "2026-10-21T18:30:00+00:00",
+        "event_id": "p3bdd69db00e1153d8253105661ff48c2711c5ee6",
+        "status": "BOOKED",
+        "brief": "Review sourced research; ask about current workflow, volume, constraints and desired outcomes."
+      }
+    ],
+    "opportunities_requiring_attention": [
+      {
+        "id": 1,
+        "contact_id": 1,
+        "reason": "INTERESTED: Explicit interest",
+        "status": "OPEN",
+        "created_at": "2026-10-18T04:49:03.575766+00:00"
+      },
+      {
+        "id": 2,
+        "contact_id": 1,
+        "reason": "Proposal scope and pricing require approval; draft has not been sent",
+        "status": "OPEN",
+        "created_at": "2026-10-18T04:49:03.585354+00:00"
+      },
+      {
+        "id": 3,
+        "contact_id": 1,
+        "reason": "Project completed: confirm results, then consider testimonial and referral requests",
+        "status": "OPEN",
+        "created_at": "2026-10-18T04:49:03.586801+00:00"
+      }
+    ],
+    "workflow_failures": [],
+    "campaign_performance": [
+      {
+        "campaign_id": "fixture",
+        "discovered": 1,
+        "qualified": 1,
+        "contacted": 1,
+        "replies": 1,
+        "positive_replies": 1,
+        "meetings_booked": 1,
+        "meetings_completed": 0,
+        "opportunities": 1,
+        "proposals_drafted": 1,
+        "proposals_sent": 0,
+        "projects_won": 1,
+        "revenue": 0.0,
+        "revenue_per_qualified_prospect": 0.0,
+        "recorded_acquisition_cost": 0.0,
+        "customer_acquisition_cost": 0.0,
+        "time_invested_hours": 2.0,
+        "bounce_rate": 0.0,
+        "unsubscribe_rate": 0.0
+      }
+    ],
+    "suggestions": [
+      {
+        "campaign_id": "fixture",
+        "suggestion": "Prioritize interested prospects and clarify the next customer conversation.",
+        "configuration_changes_applied": false
+      }
+    ],
+    "highest_leverage_action": "Respond to interested prospects and resolve open escalations."
+  }
+}
