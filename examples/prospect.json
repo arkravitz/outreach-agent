@@ -1,0 +1,21 @@
+{
+  "company": "Example Agency",
+  "domain": "example.org",
+  "email": "sam@example.org",
+  "name": "Sam",
+  "role": "Owner",
+  "region": "UNKNOWN",
+  "region_reviewed": false,
+  "legal_basis": "",
+  "provenance": "Synthetic example; replace with actual source review",
+  "source_url": "https://example.org/contact",
+  "verification": "published",
+  "evidence": [
+    {
+      "url": "https://example.org/services",
+      "quote": "We process customer documents.",
+      "text": "Example Agency. We process customer documents. Sam is our owner. Email sam@example.org.",
+      "verified": true
+    }
+  ]
+}
