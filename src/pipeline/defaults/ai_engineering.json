@@ -1,0 +1,42 @@
+{
+  "mode": "REVIEW",
+  "sender_name": "",
+  "sender_email": "",
+  "postal_address": "",
+  "offer_hours": 2,
+  "approved_facts": [],
+  "voice_examples": [],
+  "allowed_regions": [
+    "US"
+  ],
+  "daily_limit": 25,
+  "global_daily_limit": 50,
+  "domain_daily_limit": 2,
+  "min_send_interval_seconds": 120,
+  "followup_business_days": [
+    4,
+    7
+  ],
+  "max_free_projects": 3,
+  "id": "ai_engineering",
+  "name": "AI Engineering",
+  "keywords": [
+    "LLM",
+    "RAG",
+    "biotech",
+    "inference",
+    "computer vision",
+    "machine learning",
+    "evaluation"
+  ],
+  "offer": "Up to two hours of free practical help or teaching on one AI or software engineering question, with scope agreed before starting. Any further work is separately agreed; referrals are welcome but never required.",
+  "discovery_queries": [
+    "US small software startup founder AI product engineering",
+    "US small biotech research company machine learning team",
+    "US small business AI training workshop software integration"
+  ],
+  "prospecting_goal": "RELATIONSHIPS",
+  "pool_target": 60,
+  "auto_draft": true,
+  "auto_draft_threshold": 0.5
+}
