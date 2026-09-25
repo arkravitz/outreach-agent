@@ -1,0 +1,15 @@
+# Pipeline MVP design
+
+The binding request is ../../REQUEST.md. Deliver a local Python CLI and unattended host worker that moves sourced businesses into reviewed conversations. No account actions during development.
+
+Use SQLite WAL for business records, audit events, a transactional outbox, and workflow checkpoints. Use Huey SqliteHuey for persistent scheduling and worker execution, rather than a distributed scheduler. A finite discovery DAG ends at an outbound queue; incoming replies drive explicit conversation transitions. Two JSON campaign definitions share providers and storage. Add campaigns by loading JSON. Default REVIEW; DRY_RUN never sends; AUTONOMOUS requires approval of the exact configuration hash. Pricing, custom scopes, negotiations and work commitments stay in review.
+
+Live adapters use Google OAuth REST APIs, a configurable OpenAI-compatible LLM endpoint, and a public-web search API plus bounded company-page fetching. No credentials or deployed host exist in the repository. The Calendar connector available in this chat cannot authenticate a standalone daemon; no Gmail connector is installed. Provide separate OAuth bootstrap. Tokens stay in chmod-600 files under a chmod-700 state directory, never source control.
+
+Every draft and follow-up invokes the actual installed no-ai-slop SKILL.md and eval.md, recording file digests and model editing results. Missing skill fails closed. Mock tests exercise the invocation contract; they do not prove model prose quality. Restrict outreach to the US with operator-reviewed recipient region and documented legal basis; all other and unknown regions are blocked initially. Require sender identity, postal address, opt-out text, reviewed source provenance and contact verification. Evidence is quoted from public pages, with URLs and timestamps; speculative needs remain questions. LLM output is untrusted, never executable policy.
+
+Gmail does not provide an exactly-once send API. A durable pre-send reservation prevents concurrent sends; a timeout/crash after reservation enters UNKNOWN and reconciliation searches a deterministic Message-ID. Never automatically resend an ambiguous send, even if a search finds nothing. Favor a missed send requiring review over a duplicate. A serial SQLite send gate gives pause, suppression, reply ingest and send a defined order; network timeout is bounded. Follow-ups stop before classification and do not resume automatically after any reply.
+
+Scheduling offers fresh free/busy slots within configured working hours. Confirmed exact times only; ambiguous natural language escalates. Calendar uses a deterministic event ID, fresh availability and duplicate lookup. Calendar invitations require explicit CLI confirmation and never run in dry-run.
+
+CRM stores opportunities, proposal drafts, projects, outcomes, revenue and experiments. Optimizer emits suggestions only. No autonomous pricing or contracts. DNS verification, sophisticated lead-provider integrations, automatic negotiation, signed contracts, jurisdiction expansion and production hosting are outside the MVP and must be documented.
