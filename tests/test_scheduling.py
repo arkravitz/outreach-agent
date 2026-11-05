@@ -3,6 +3,15 @@ import pytest
 from pipeline.calendar import Scheduler
 from pipeline.outbound import Blocked, business_days
 from test_replies import sent, event
+from zoneinfo import ZoneInfo
+
+
+def future_slot() -> datetime:
+    """The next weekday at 10:00 Pacific, so booking tests never go stale."""
+    day = datetime.now(ZoneInfo("America/Los_Angeles")) + timedelta(days=1)
+    while day.weekday() >= 5:
+        day += timedelta(days=1)
+    return day.replace(hour=10, minute=0, second=0, microsecond=0)
 
 
 class Calendar:
@@ -35,7 +44,7 @@ def test_schedule_correct_timezone_event_and_no_duplicate_booking(setup, seed):
     app.classify("incoming-1")
     calendar = Calendar()
     scheduler = Scheduler(app, calendar)
-    start = datetime.fromisoformat("2026-11-02T10:00:00-08:00")
+    start = future_slot()
     meeting = scheduler.book(contact["id"], start, approved=True)
     assert meeting["start"]["dateTime"] == start.isoformat()
     assert meeting["attendees"] == [{"email": seed.email}]
@@ -49,7 +58,7 @@ def test_calendar_rechecks_fresh_busy_time_before_booking(setup, seed):
     app, _, contact, _ = sent(setup, seed)
     calendar = Calendar()
     scheduler = Scheduler(app, calendar)
-    start = datetime.fromisoformat("2026-11-02T10:00:00-08:00")
+    start = future_slot()
     calendar.busy = [(start, start + timedelta(hours=1))]
     with pytest.raises(Blocked, match="available"):
         scheduler.book(contact["id"], start, approved=True)
@@ -60,9 +69,9 @@ def test_calendar_requires_confirmation_and_timezone(setup, seed):
     app, _, contact, _ = sent(setup, seed)
     scheduler = Scheduler(app, Calendar())
     with pytest.raises(Blocked, match="approval"):
-        scheduler.book(contact["id"], datetime.fromisoformat("2026-11-02T10:00:00-08:00"))
+        scheduler.book(contact["id"], future_slot())
     with pytest.raises(ValueError, match="timezone"):
-        scheduler.book(contact["id"], datetime(2026, 11, 2, 10), approved=True)
+        scheduler.book(contact["id"], future_slot().replace(tzinfo=None), approved=True)
 
 
 def test_calendar_dry_run_and_pause_block_invitations(setup, seed):
@@ -70,7 +79,7 @@ def test_calendar_dry_run_and_pause_block_invitations(setup, seed):
     scheduler = Scheduler(app, Calendar())
     app.store.execute("update settings set value='true' where key='paused'")
     with pytest.raises(Blocked, match="paused"):
-        scheduler.book(contact["id"], datetime.fromisoformat("2026-11-02T10:00:00-08:00"), approved=True)
+        scheduler.book(contact["id"], future_slot(), approved=True)
 
 
 def test_calendar_rejects_invalid_state_before_external_invitation(setup, seed):
@@ -79,7 +88,7 @@ def test_calendar_rejects_invalid_state_before_external_invitation(setup, seed):
     calendar = Calendar()
     with pytest.raises(Blocked, match="state"):
         Scheduler(app, calendar).book(
-            contact["id"], datetime.fromisoformat("2026-11-02T10:00:00-08:00"), approved=True
+            contact["id"], future_slot(), approved=True
         )
     assert not calendar.events
 
@@ -100,6 +109,6 @@ def test_booking_refreshes_state_after_acquiring_gate(setup, seed, monkeypatch):
     monkeypatch.setattr(app.store, "one", concurrent_decline)
     with pytest.raises(Blocked):
         Scheduler(app, calendar).book(
-            contact["id"], datetime.fromisoformat("2026-11-02T10:00:00-08:00"), approved=True
+            contact["id"], future_slot(), approved=True
         )
     assert not calendar.events
